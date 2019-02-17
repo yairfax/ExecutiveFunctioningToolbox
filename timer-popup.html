@@ -52,7 +52,11 @@
 				setTimeout(function() { 
 					if (params['break']) { //Break block
 						$("#timer").text("Break Time!")
+						document.body.style.backgroundColor = "#c4e1c3"
+						document.getElementById("timer").style.color = "#ffffff"
 						setTimeout(function() {
+							document.body.style.backgroundColor = "black"
+							document.getElementById("timer").style.color = "white"
 							endCycle(i, end)
 						}, parseInt(params['break']) * multi)
 						warningTimer(params['break'])
@@ -64,7 +68,11 @@
 			} else {
 				if (params['break']) { // Break block
 					$("#timer").text("Break Time!")
+					document.body.style.backgroundColor = "#c4e1c3"
+					document.getElementById("timer").style.color = "#000000"
 					setTimeout(function() {
+						document.body.style.backgroundColor = "black"
+						document.getElementById("timer").style.color = "white"
 						endCycle(i, end)
 					}, parseInt(params['break']) * multi)
 					warningTimer(params['break'])
