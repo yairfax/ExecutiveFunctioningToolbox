@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<form name="steps">
+  <fieldset>
+    <legend>Add Step</legend>
+    Step:<br>
+    <input type="text" name="step"><br><br>
+    When to move on:<br>
+    <input type="radio" name="next" value="Timed" checked> Timed<br>
+  	<input type="radio" name="next" value="Button Click"> Button Click<br>
+    If timed, how many minutes:<br>
+    <input type="text" name="time"><br>
+    <input type="button" value="Submit" id="btnsubmit" onclick="submitForm()">
+  </fieldset>
+ </form>
+  <script>
+  	function submitForm() {
+  	var speech=document.getElementsByName("step")[0].value;
+  	var msg = new SpeechSynthesisUtterance(speech);
+	window.speechSynthesis.speak(msg);
+  	var frm=document.getElementsByName('steps')[0];
+  	document.write(frm)
+  	frm.submit();
+  	frm.reset(); 
+  	}
+  </script>
+
+</body>
+</html>
