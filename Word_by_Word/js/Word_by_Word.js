@@ -1,5 +1,23 @@
 var loadedtext = "";
 
+$('#start').click(function(){
+	var file = document.getElementById('file').files[0];
+	console.log(file);
+	if(file){
+		getAsText(file);
+		var element = document.getElementById('file-content');
+		element.textContent = contents;
+	}
+	else if(document.getElementById('words').value != "") {
+		var text = "";
+		text = document.getElementById('words').value
+		loadedtext = text;
+	}
+	else {
+		alert("Nothing was inputted");
+	}
+});
+
 function ReadTextBox()//reads from the textbox
 {
 	var text = "";
@@ -11,10 +29,16 @@ function startRead() {//reads the file into memory
 	var file = document.getElementById('file').files[0];
 	if(file){
 		getAsText(file);
+		var element = document.getElementById('file-content');
+		element.textContent = contents;
 	}
-	else
-	{
-		alert("Failure");
+	else if(document.getElementById('words').value != "") {
+		var text = "";
+		text = document.getElementById('words').value
+		loadedtext = text;
+	}
+	else {
+		alert("Nothing was inputted");
 	}
 }
 

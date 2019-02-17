@@ -1,0 +1,36 @@
+html, body {
+    background-color: black;
+}
+
+.card-header {
+    text-align: center;
+}
+
+.input-option {
+    text-align: center;
+}
+
+.custom-file-upload input[type="file"] {
+    /*display: none;*/
+}
+.custom-file-upload .custom-file-upload1 {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+.custom-file-upload h2 , .custom-file-upload label {
+    text-align: center;
+}
+
+#start {
+    background-color: #03A700;
+}
+
+#content {
+    position: fixed;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+}
