@@ -119,8 +119,16 @@ body {
 }
 
 .tab-size {
-    padding-left: 1em;
-    padding-right: 1em;
+    font-size: 1.8em;
+}
+
+.active {
+    color: #C4FFAF;
+}
+
+.nav>li>a {
+    padding-right: 2em;
+    padding-left: 2em;
 }
 
 /* Responsive: Portrait tablets and up */
