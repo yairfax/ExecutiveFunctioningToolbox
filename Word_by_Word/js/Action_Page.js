@@ -1,8 +1,15 @@
-var postdata = "Hello World, lorem ispu dolor sit amet\nHello people I exist."
+var postdata = "Hello World, lorem ispu dolor sit amet\nHello people I exist."//to be the read post text
 var paragraphs = dividewords();
 var paused = false;
 var timer;
-function dividewords()
+
+function readposttext()
+{
+	//reads the post text to be implemented
+}
+
+
+function dividewords()//splits the paragraphs and stuff into different words
 {
 	var paragraphs = postdata.split("\n");
 	var realparagraphs = new Array(paragraphs.length);
@@ -12,7 +19,7 @@ function dividewords()
 	return realparagraphs;
 }
 
-function Timer(callback, delay) {
+function Timer(callback, delay) {//the timer, adds the pause and resume functinality to setTimeout
 	var args = arguments,
 		self = this,
 		timer, start;
@@ -36,52 +43,54 @@ function Timer(callback, delay) {
 	this.resume();
 }
 
-function callback(i, q, timeout) 
+function callback(i, q, timeout) //callback function, constantly called function that writes the words and then waits.s
 {
 	document.getElementById("WORDS").innerHTML = paragraphs[i][q];
-	if (q < paragraphs[i].length-2) {
-		timer = new Timer(callback, timeout,i,q+1,timeout)
-		if(paused)
-		{
-			timer.pause();
-		}
-	} 
-	else if (q < paragraphs[i].length - 1)
-	{
-		timer = new Timer(callback,timeout*3,i,q+1,timeout*3)
-		if(paused)
+	if (q == 0){
+		timer = new Timer(callback, timeout*3,i,q+1,timeout)//sets the timer and calls the function and the next word
+		if(paused)//checks if paused, if it is pauses it. 
 		{
 			timer.pause();
 		}
 	}
+	else if (q < paragraphs[i].length-1) 
+	{
+		timer = new Timer(callback, timeout,i,q+1,timeout)//sets the timer and calls the function and the next word
+		if(paused)//checks if paused, if it is pauses it. 
+		{
+			timer.pause();
+		}
+	} 
 	else if (i < paragraphs.length-1) 
 	{
-		timer = new Timer(callback,timeout,i + 1, 0,timeout/3)
-		if(paused)
+		timer = new Timer(callback,timeout,i + 1, 0,timeout)//sets the timer and calls the function and the next paragraph
+		if(paused)//checks if paused, if it is pauses it. 
 		{
 			timer.pause();
 		}
 	}
 }
 
-function writewords()
+function writewords()//first callback, began with button press
 {
 	var num = parseInt(document.getElementById("timeout").value)+250
 	callback(0,0, num);
 }
 
-function Pause()
+function Pause()//button toggled pause resume
 {
 	if(paused)
 	{
 		paused = false;
 		//resume
 		timer.resume();
+		document.getElementById("pause").value = "Pause"
 	}
 	else
 	{
 		paused = true;
 		//pause
 		timer.pause();
+		document.getElementById("pause").value = "Resume"
 	}
 }
