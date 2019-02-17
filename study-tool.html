@@ -18,16 +18,6 @@
 			right: 50%;
 			transform: translate(50%, -50%);
 		}
-
-		#timer {
-			position: fixed;
-			top: 50%;
-			right: 50%;
-			transform: translate(50%, -50%);
-			text-align: center;
-			color: white;
-			font-size: 100pt
-		}
 	</style>
 </head>
 
@@ -48,7 +38,7 @@
 					</div>
 					<div class="col">
 						<div class="form-group">
-							<input name="task1-time" class="form-control" type="number" min="0" max="60" required id="task1-time" placeholder="Task 1 Time">
+							<input name="task1-time" class="form-control" type="number" min="0" max="60" required id="task1-time" placeholder="Task 1 Time (Minutes)">
 						</div>
 					</div>
 				</div>
@@ -65,7 +55,7 @@
 							<input class="form-control task2" type="text" id ="task2-name" name="task2-name" placeholder="Task 2 Name">
 						</div>
 						<div class="form-group col">
-							<input class="form-control task2" type="number" min="0" max="60" id="task2-time" name="task2-time" placeholder="Task 2 Time">
+							<input class="form-control task2" type="number" min="0" max="60" id="task2-time" name="task2-time" placeholder="Task 2 Time (Minutes)">
 						</div>
 					</div>
 				</div>
@@ -78,7 +68,7 @@
 				</div>
 				<div id="break" hidden>
 					<div class="form-group">
-						<input class="form-control" name="break" type="number" min="0" max="60" id="break-time" placeholder="Time for Break">
+						<input class="form-control" name="break" type="number" min="0" max="60" id="break-time" placeholder="Time for Break (Minutes)">
 					</div>
 				</div>
 
@@ -88,50 +78,10 @@
 				</div>
 			</div>
 		</form>
-	</div><!-- 
-	<div id="timer" hidden>
-		Text!
-	</div> -->
+	</div>
 </body>
 
 <script>
-	// function startTimer(i, end) {
-	// 	$("#timer").text($("#task1-name").val())
-	// 	setTimeout(function() {
-	// 		if (!$("#task2").prop("hidden")) {
-	// 			$("#timer").text($("#task2-name").val())
-	// 			setTimeout(function() {
-	// 				if (!$("#break").prop("hidden")) {
-	// 					$("#timer").text("Break Time!")
-	// 					setTimeout(function() {
-	// 						if (i < end) {
-	// 							startTimer(i + 1, end)
-	// 						} else {
-	// 							$("#content").show()
-	// 							$("#timer").prop("hidden", true)
-	// 						}
-	// 					}, parseInt($("#break-time").val()) * multi)
-	// 				} else {
-	// 					if (i < end) {
-	// 						startTimer(i + 1, end)
-	// 					} else {
-	// 						$("#content").show()
-	// 						$("#timer").prop("hidden", true)
-	// 					}
-	// 				}
-	// 			}, parseInt($("#task2-time").val()) * multi)
-	// 		} else {
-	// 			if (i < end) {
-	// 				startTimer(i + 1, end)
-	// 			} else {
-	// 				$("#content").show()
-	// 				$("#timer").prop("hidden", true)
-	// 			}
-	// 		}
-	// 	}, parseInt($("#task1-time").val()) * multi)
-	// }
-
-	// const multi = 60000; // set to secs now, change to minutes later
 	$("#task2-checkbox").change(function(event) {
 		$("#task2").prop('hidden', !$("#task2").prop('hidden'))
 		$(".task2").prop('required', !$(".task2").prop('required'))
@@ -142,16 +92,6 @@
 		$("#break").prop('hidden', !$("#break").prop('hidden'))
 		$("#break").prop('required', !$("#break").prop('required'))
 		$("#break-time").val('')
-	})
-
-	$("#time-form").submit(function(event) {
-		// event.preventDefault();
-
-		// $("#content").hide()
-		// $("#timer").prop("hidden", false)
-
-		// startTimer(1, (parseInt($("#times").val()) || 1))
-		
 	})
 </script>
 
