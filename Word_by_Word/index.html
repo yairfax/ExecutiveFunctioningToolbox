@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang = "EN_US">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Word by Word</title>
+		<meta name="description" content="Word by word, takes text input and displays on a different page slowed down. ">
+		<meta name="author" content="Benjamin Salzberg">
+		<!--<link rel="icon" href="images/favicon.ico">-->
+		<script src = "js/Word_by_Word.js"></script>
+	</head>
+
+	<body>
+		<h1>Text box</h1>
+		<form>
+			 Text input: <input id = "words" type="text" name="words"><br>
+			 <input id="TextBoxReadButton" type="button" value="Read Text" onclick="ReadTextBox();" />
+		</form>
+		<h1>input file from text</h1><br>
+		<form>
+			<input type="file" id="file" name="files[]"/>
+			<input id="TextFileReadButton" type="button" value="Read File" onclick="startRead();" />
+		</form>
+		<form>
+			<input id="ReadText" type="button" value="Begin" onclick="BeginReadText();" />
+		</form>
+	</body>
+</html>
