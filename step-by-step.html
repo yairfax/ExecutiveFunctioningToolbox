@@ -25,124 +25,130 @@
 <body>
 <div class="container">
 
-<div id="output-container" class="output">
-  <input class="output" type="radio" name="output" value="speech">Speech<br>
-  <input class="output" type="radio" name="output" value="text">Text<br>
-  <input class="output" type="radio" name="output" value="speechtext" checked>Speech and Text<br>
-  <input class="btn btn-success" type="button" value="Submit" id="btnsubmit" onclick="submitForm()">
-  <button class="btn btn-success" type="button" id="add">Add Step</button>
-</div>
-
-<button style="position: fixed; right: 10%" hidden id="pause">Pause</button>
-
-<form name="steps">
-  
-  <div id="steps">
-    <h2>Type Instructions to be Read Out</h2>
-    <div class="step col-md-7">
-      <h4>Step 1:</h4>
-      <div class="form-group">
-        <textarea class="form-control" type="text" name="step"></textarea>
-      </div>
-      <!-- When to move on:<br>
-      <input type="radio" name="next" value="Timed" checked> Timed<br>
-    	<input type="radio" name="next" value="Button Click"> Button Click<br> -->
-      <h5>Seconds: </h5>
-      <div class="form-group">
-        <input class="form-control" id="time" type="number" name="time">
-      </div>
+  <div id="output-container" class="output">
+    <div class="form-group">
+      <input class="output" type="radio" name="output" value="speech">Speech<br>
+      <input class="output" type="radio" name="output" value="text">Text<br>
+      <input class="output" type="radio" name="output" value="speechtext" checked>Speech and Text<br>
+    </div>
+    <div class="form-group">
+      <input class="btn btn-success" type="button" value="Submit" id="btnsubmit" onclick="submitForm()">
+      <button class="btn btn-success" type="button" id="add">Add Step</button>
     </div>
   </div>
+
+  <div class="form-group">
+    <button class="btn btn-success" style="position: fixed; right: 10%" hidden id="pause">Pause</button>
+  </div>
+
+  <form name="steps">
     
-    
+    <div id="steps">
+      <h2>Type Instructions to be Read Out</h2>
+      <div class="step col-md-7">
+        <h4>Step 1:</h4>
+        <div class="form-group">
+          <textarea class="form-control" type="text" name="step"></textarea>
+        </div>
+        <!-- When to move on:<br>
+        <input type="radio" name="next" value="Timed" checked> Timed<br>
+      	<input type="radio" name="next" value="Button Click"> Button Click<br> -->
+        <h5>Seconds: </h5>
+        <div class="form-group">
+          <input class="form-control" id="time" type="number" name="time">
+        </div>
+      </div>
+    </div>  
   
   </form>
+
   <div id="text" hidden>
     Text!
   </div>
-  <script>
-    const multi = 1000;
-    var output;
-    var currTimer;
-
-    function Timer(callback, delay) {
-      var timerId, start, remaining = delay;
-
-      this.pause = function() {
-          window.clearTimeout(timerId);
-          remaining -= new Date() - start;
-      };
-
-      this.resume = function() {
-          start = new Date();
-          window.clearTimeout(timerId);
-          timerId = window.setTimeout(callback, remaining);
-      };
-
-      this.resume();
-    }
-
-    function speakboy(k) {
-      var speech = $($(".step")[k]).find('textarea').val();
-      if (output.match(/speech/i)) {
-        var msg = new SpeechSynthesisUtterance(speech);
-        window.speechSynthesis.speak(msg);
-      }
-      if (output.match(/text/i)) {
-        $("#text").text(speech)
-      }
-      currTimer = new Timer(function() {
-        if (k < $(".step").length) {
-          speakboy(k + 1)
-        } else {
-          location.reload();
-        }
-      }, multi * parseInt($($(".step")[k]).find('#time').val()))
-    }
-
-
-  	function submitForm() {
-      output = $(".output:checked").val()
-
-      $("#pause").prop('hidden', false);
-
-      if (output.match(/text/i)) {
-        $("form").hide()
-        $(".output").hide()
-        $("#text").prop('hidden', false);
-      }
-      speakboy(0);
-  	}
-
-    $("#pause").click(function(event) {
-      if ($("#pause").text() === "Pause") {
-        currTimer.pause();
-        $("#pause").text("Resume");
-        window.speechSynthesis.pause();
-      } else {
-        currTimer.resume();
-        $("#pause").text("Pause");
-        window.speechSynthesis.resume();
-      }
-    })
-
-    var i = 2
-    $("#add").click(function() {
-      $("#steps").append(`<div class="step col-md-7">
-      <h4>Step ${i++}:</h4>
-      <div class="form-group">
-        <textarea class="form-control" type="text" name="step"></textarea>
-      </div>
-      <h5>Seconds: </h5>
-      <div class="form-group">
-        <input class="form-control" id="time" type="number" name="time">
-      </div>
-      </div>`)
-
-      
-    })
-  </script>
+</div>
 
 </body>
-</div>
+<script>
+  const multi = 1000;
+  var output;
+  var currTimer;
+
+  function Timer(callback, delay) {
+    var timerId, start, remaining = delay;
+
+    this.pause = function() {
+        window.clearTimeout(timerId);
+        remaining -= new Date() - start;
+    };
+
+    this.resume = function() {
+        start = new Date();
+        window.clearTimeout(timerId);
+        timerId = window.setTimeout(callback, remaining);
+    };
+
+    this.resume();
+  }
+
+  function speakboy(k) {
+    var speech = $($(".step")[k]).find('textarea').val();
+    if (output.match(/speech/i)) {
+      var msg = new SpeechSynthesisUtterance(speech);
+      window.speechSynthesis.speak(msg);
+    }
+    if (output.match(/text/i)) {
+      $("#text").text(speech)
+    }
+    currTimer = new Timer(function() {
+      if (k < $(".step").length) {
+        speakboy(k + 1)
+      } else {
+        location.reload();
+      }
+    }, multi * parseInt($($(".step")[k]).find('#time').val()))
+  }
+
+
+	function submitForm() {
+    output = $(".output:checked").val()
+
+    $("#pause").prop('hidden', false);
+
+    if (output.match(/text/i)) {
+      $("form").hide()
+      $(".output").hide()
+      $("#text").prop('hidden', false);
+    }
+    speakboy(0);
+	}
+
+  $("#pause").click(function(event) {
+    if ($("#pause").text() === "Pause") {
+      currTimer.pause();
+      $("#pause").text("Resume");
+      window.speechSynthesis.pause();
+    } else {
+      currTimer.resume();
+      $("#pause").text("Pause");
+      window.speechSynthesis.resume();
+    }
+  })
+
+  var i = 2
+  $("#add").click(function() {
+    $("#steps").append(`<div class="step col-md-7">
+    <h4>Step ${i++}:</h4>
+    <div class="form-group">
+      <textarea class="form-control" type="text" name="step"></textarea>
+    </div>
+    <h5>Seconds: </h5>
+    <div class="form-group">
+      <input class="form-control" id="time" type="number" name="time">
+    </div>
+    </div>`)
+
+    
+  })
+</script>
+
 </html>
