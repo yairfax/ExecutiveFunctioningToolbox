@@ -1,8 +1,8 @@
 
 /* Space out content a bit */
 body {
-  padding-top: 1.5rem;
   padding-bottom: 1.5rem;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .container {
@@ -42,6 +42,7 @@ body {
 .jumbotron {
   text-align: center;
   border-bottom: .05rem solid #e5e5e5;
+  margin-top: 1em;
 }
 .jumbotron .btn {
   padding: .75rem 1.5rem;
@@ -99,6 +100,11 @@ body {
 
 .panel-body {
     height: 43em;
+    padding: 0;
+}
+
+.tab-content {
+    height: 100%;
 }
 
 .tab-size {
@@ -111,6 +117,7 @@ body {
  #study, #stepbystep, #reminder, #reader {
      overflow: hidden;
      position: relative;
+     height: 100%;
  }
 
 .innerHTML {
