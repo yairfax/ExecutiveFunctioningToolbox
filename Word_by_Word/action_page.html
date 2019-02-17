@@ -9,12 +9,24 @@
 		<meta name="author" content="Benjamin Salzberg">
 		<!--<link rel="icon" href="images/favicon.ico">-->
 		<script src = "js/Action_Page.js"></script>
+        <style>
+            #readout {
+                position: fixed;
+                top: 50%;
+                right: 50%;
+                transform: translate(50%, -50%);
+                text-align: center;
+                font-size: 100pt
+            }
+        </style>
 	</head>
 
 	<body>
 		<input id="start" type="button" value="Start" onclick="writewords();" />
 		<input id="pause" type="button" value="Pause" onclick="Pause();" />
 		<input id = "timeout" type="number" name="quantity" min="0" max="5000" value = "500"/> In half seconds
-		<h1 id = "WORDS"> </h1>
+        <div id="readout">
+		  <h1 id = "WORDS"> </h1>
+        </div>
 	</body>
 </html>
