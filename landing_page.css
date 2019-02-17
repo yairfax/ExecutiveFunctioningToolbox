@@ -1,12 +1,27 @@
 
 /* Space out content a bit */
+html, body {
+    height: 100%;
+}
+
 body {
-  padding-bottom: 1.5rem;
   font-family: 'Open Sans', sans-serif;
 }
 
 .container {
     width: 90%;
+}
+
+.reach-bottom {
+    height: 100%;
+    margin-bottom: 0;
+}
+
+.panel {
+    margin-bottom: 0;
+}
+
+.applications {
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -99,12 +114,8 @@ body {
 }
 
 .panel-body {
-    height: 43em;
     padding: 0;
-}
-
-.tab-content {
-    height: 100%;
+    height: 48em;
 }
 
 .tab-size {
@@ -142,5 +153,7 @@ body {
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
+    padding-top: 24px;
+    padding-bottom: 24px; 
   }
 }
