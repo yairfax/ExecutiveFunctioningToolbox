@@ -9,7 +9,7 @@
 
   <style>
     body {
-      background-color: black;
+      background-color: #c4e1c3;
     }
 
     #snoozeCard {
@@ -97,6 +97,8 @@
 <script>
 
 var snoozeCount = 0
+var audio = new Audio('beep-07.wav');
+
 
 $("#time-form").submit(function(event) {
     event.preventDefault();
@@ -120,6 +122,8 @@ function complete(){
 function snooze(){
   snoozeCount = snoozeCount + 1
   console.log(snoozeCount)
+  audio.loop = false;
+
   $("#snoozeCard").prop("hidden", true) 
   document.getElementById("timerP").textContent = "Snoozed"
   $("#timer").prop("hidden", false)  
@@ -130,7 +134,12 @@ function snooze(){
     $("#timer").prop("hidden", true)  
     $("#snoozeCard").prop("hidden", false)      
     //show snooze form
+    if(snoozeCount >= 2){
+      audio.loop = true;
+      audio.play();
+    }
   }, time2*1000);
+
 }
 
 
