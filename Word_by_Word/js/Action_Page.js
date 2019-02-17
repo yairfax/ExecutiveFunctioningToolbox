@@ -94,3 +94,26 @@ function Pause()//button toggled pause resume
 		document.getElementById("pause").value = "Resume"
 	}
 }
+
+$("#starts").click(function() {
+	var num = parseInt($("#timeout").val())+250;
+	console.log('hello')
+	callback(0,0, num);
+})
+
+$("#pause").click(function() {
+	if(paused)
+	{
+		paused = false;
+		//resume
+		timer.resume();
+		$("#pause").text("Pause");
+	}
+	else
+	{
+		paused = true;
+		//pause
+		timer.pause();
+		$("#pause").text("Resume");
+	}
+})
