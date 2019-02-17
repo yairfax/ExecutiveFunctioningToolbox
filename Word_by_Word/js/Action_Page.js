@@ -1,6 +1,7 @@
 var postdata = "Hello World, lorem ispu dolor sit amet\nHello people I exist."
 var paragraphs = dividewords();
-var paused = true;
+var paused = false;
+var timer;
 function dividewords()
 {
 	var paragraphs = postdata.split("\n");
@@ -11,36 +12,76 @@ function dividewords()
 	return realparagraphs;
 }
 
-function writewords()
-{
-	writeindivdualword(0,0,1000)
+function Timer(callback, delay) {
+	var args = arguments,
+		self = this,
+		timer, start;
+
+	this.clear = function () {
+		clearTimeout(timer);
+	};
+
+	this.pause = function () {
+		this.clear();
+		delay -= new Date() - start;
+	};
+
+	this.resume = function () {
+		start = new Date();
+		timer = setTimeout(function () {
+			callback.apply(self, Array.prototype.slice.call(args, 2, args.length));
+		}, delay);
+	};
+
+	this.resume();
 }
 
-function writeindivdualword(i,q,timeout)
-{	
-	paused = false;
+function callback(i, q, timeout) 
+{
 	document.getElementById("WORDS").innerHTML = paragraphs[i][q];
-	setTimeout(function() {
-		if (q < paragraphs[i].length-2) {
-			writeindivdualword(i,q+1,1000)
-		} else if (q < paragraphs[i].length - 1)
+	if (q < paragraphs[i].length-2) {
+		timer = new Timer(callback, timeout,i,q+1,timeout)
+		if(paused)
 		{
-			writeindivdualword(i,q+1, 3000)
+			timer.pause();
 		}
-		else if (i < paragraphs.length-1) {
-			writeindivdualword(i + 1, 0, 1000)
+	} 
+	else if (q < paragraphs[i].length - 1)
+	{
+		timer = new Timer(callback,timeout*3,i,q+1,timeout*3)
+		if(paused)
+		{
+			timer.pause();
 		}
-	}, timeout)
+	}
+	else if (i < paragraphs.length-1) 
+	{
+		timer = new Timer(callback,timeout,i + 1, 0,timeout/3)
+		if(paused)
+		{
+			timer.pause();
+		}
+	}
+}
+
+function writewords()
+{
+	var num = parseInt(document.getElementById("timeout").value)+250
+	callback(0,0, num);
 }
 
 function Pause()
 {
 	if(paused)
 	{
+		paused = false;
 		//resume
+		timer.resume();
 	}
 	else
 	{
+		paused = true;
 		//pause
+		timer.pause();
 	}
 }
