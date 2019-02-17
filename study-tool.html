@@ -136,7 +136,7 @@
 		}, parseInt($("#task1-time").val()) * multi)
 	}
 
-	const multi = 1000; // set to secs now, change to minutes later
+	const multi = 60000; // set to secs now, change to minutes later
 	$("#task2-checkbox").change(function(event) {
 		$("#task2").prop('hidden', !$("#task2").prop('hidden'))
 		$(".task2").prop('required', !$(".task2").prop('required'))
