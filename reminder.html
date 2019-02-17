@@ -59,7 +59,7 @@
             <div class="form-group">
               <label> in </label>
               <input type="number" min="0" max="60" required id="task1-time" placeholder="10">
-              <label> minutes</label>
+              <label> seconds</label>
             </div>
           </div>
           <div id="task2" class="col">
@@ -67,7 +67,7 @@
             <div class="form-group">
               <label>Every</label>
               <input type="number" min="0" max="60" required id="repeatTime" placeholder="5">
-              <label> minutes</label>
+              <label> seconds</label>
             </div>      
           </div>
 
@@ -94,12 +94,18 @@
   <!-- Snooze or Continue Card -->
     <form id="snooze-form">   
   <div class="card" style="width: 30rem;" id="snoozeCard" border-bottom = "none" hidden>
-      <div class="card-header"></div>
+      <div id = "snooze-form-title" class="card-header" style="text-align: center; font-size: 20pt"></div>
         <div class="card-body" style="text-align: center">
-          <button type="button" class="btn btn-success" name="end-task" onclick="complete()">Task Completed</button>
-          <button type="button" class="btn btn-success" name="snooze-task" onclick="snooze()">Snooze</button>          
+          <div class="row">
+            <div class="col">
+              <button type="button" class="btn btn-success" name="end-task" onclick="complete()">Task Completed</button>
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-success" name="snooze-task" onclick="snooze()">Snooze</button>    
+            </div>
+          </div>
         </div>
-      <div class="card-footer"></div>
+      </div>
     </div>
     </form>
 
@@ -110,18 +116,18 @@
 var snoozeCount = 0
 var audio = new Audio('beep-07.wav');
 
-
 $("#time-form").submit(function(event) {
     event.preventDefault();
     $("#content").prop("hidden", true)      
     $("#timer").prop("hidden", false)
 
     var time = document.getElementById("task1-time").value;
-
     setTimeout(function(){ 
     $("#timer").prop("hidden", true)      
     $("#snoozeCard").prop("hidden", false)      
     //show snooze form
+    var speech = document.getElementById("task1-name").value;
+    document.getElementById("snooze-form-title").innerHTML = "Time to " + speech;
     }, time*1000);
 
   })
@@ -143,11 +149,18 @@ function snooze(){
   
   setTimeout(function(){ 
     $("#timer").prop("hidden", true)  
-    $("#snoozeCard").prop("hidden", false)      
+    $("#snoozeCard").prop("hidden", false)  
     //show snooze form
-    if(snoozeCount >= 2){
+    if(snoozeCount == 2 || snoozeCount == 3){
       audio.loop = true;
       audio.play();
+    }
+    if (snoozeCount > 3){
+      var speech = document.getElementById("task1-name").value;
+      var st = "time to " + speech;
+      var msg = new SpeechSynthesisUtterance(st);
+      window.speechSynthesis.speak(msg);
+
     }
   }, time2*1000);
 
