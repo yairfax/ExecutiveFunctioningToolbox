@@ -25,6 +25,8 @@
 <input class="output" type="radio" name="output" value="speechtext" checked>Speech and Text<br>
 </div>
 
+<button style="position: fixed; right: 10%" hidden id="pause">Pause</button>
+
 <form name="steps">
   <fieldset>
     <legend>Add Step</legend>
@@ -49,6 +51,24 @@
   <script>
     const multi = 1000;
     var output;
+    var currTimer;
+
+    function Timer(callback, delay) {
+      var timerId, start, remaining = delay;
+
+      this.pause = function() {
+          window.clearTimeout(timerId);
+          remaining -= new Date() - start;
+      };
+
+      this.resume = function() {
+          start = new Date();
+          window.clearTimeout(timerId);
+          timerId = window.setTimeout(callback, remaining);
+      };
+
+      this.resume();
+    }
 
     function speakboy(k) {
       var speech=$($("[class*=step]")[k]).find('input').val();
@@ -59,7 +79,7 @@
       if (output.match(/text/i)) {
         $("#text").text(speech)
       }
-      setTimeout(function() {
+      currTimer = new Timer(function() {
         if (k < $("[class*=step]").length) {
           speakboy(k + 1)
         } else {
@@ -71,6 +91,9 @@
 
   	function submitForm() {
       output = $(".output:checked").val()
+
+      $("#pause").prop('hidden', false);
+
       if (output.match(/text/i)) {
         $("form").hide()
         $(".output").hide()
@@ -78,6 +101,21 @@
       }
       speakboy(0);
   	}
+
+    $("#pause").click(function(event) {
+      if ($("#pause").text() === "Pause") {
+        currTimer.pause();
+        $("#pause").text("Resume");
+        window.speechSynthesis.pause();
+      } else {
+        currTimer.resume();
+        $("#pause").text("Pause");
+        window.speechSynthesis.resume();
+      }
+    })
+
+
+
 
     var i = 0;
 
