@@ -15,37 +15,49 @@
       text-align: center;
       font-size: 100pt
     }
+
+    #output-container {
+      position: fixed;
+      right: 20%;
+    }
   </style>
 </head>
 <body>
+<div class="container">
 
-<div class="output">
-<input class="output" type="radio" name="output" value="speech">Speech<br>
-<input class="output" type="radio" name="output" value="text">Text<br>
-<input class="output" type="radio" name="output" value="speechtext" checked>Speech and Text<br>
+<div id="output-container" class="output">
+  <input class="output" type="radio" name="output" value="speech">Speech<br>
+  <input class="output" type="radio" name="output" value="text">Text<br>
+  <input class="output" type="radio" name="output" value="speechtext" checked>Speech and Text<br>
+  <input class="btn btn-success" type="button" value="Submit" id="btnsubmit" onclick="submitForm()">
+  <button class="btn btn-success" type="button" id="add">Add Step</button>
 </div>
 
 <button style="position: fixed; right: 10%" hidden id="pause">Pause</button>
 
 <form name="steps">
-  <fieldset>
-    <legend>Add Step</legend>
-    <div class="step">
-      Step:<br>
-      <input type="text" name="step"><br><br>
+  
+  <div id="steps">
+    <h2>Type Instructions to be Read Out</h2>
+    <div class="step col-md-7">
+      <h4>Step 1:</h4>
+      <div class="form-group">
+        <textarea class="form-control" type="text" name="step"></textarea>
+      </div>
       <!-- When to move on:<br>
       <input type="radio" name="next" value="Timed" checked> Timed<br>
     	<input type="radio" name="next" value="Button Click"> Button Click<br> -->
-      If timed, how many seconds:<br>
-      <input id="time" type="number" name="time"><br>
+      <h5>Seconds: </h5>
+      <div class="form-group">
+        <input class="form-control" id="time" type="number" name="time">
+      </div>
     </div>
+  </div>
     
     
-  </fieldset>
-  <input type="button" value="Submit" id="btnsubmit" onclick="submitForm()">
-  <button type="button" id="add">Add Step</button>
- </form>
- <div id="text" hidden>
+  
+  </form>
+  <div id="text" hidden>
     Text!
   </div>
   <script>
@@ -71,7 +83,7 @@
     }
 
     function speakboy(k) {
-      var speech=$($("[class*=step]")[k]).find('input').val();
+      var speech = $($(".step")[k]).find('textarea').val();
       if (output.match(/speech/i)) {
         var msg = new SpeechSynthesisUtterance(speech);
         window.speechSynthesis.speak(msg);
@@ -80,12 +92,12 @@
         $("#text").text(speech)
       }
       currTimer = new Timer(function() {
-        if (k < $("[class*=step]").length) {
+        if (k < $(".step").length) {
           speakboy(k + 1)
         } else {
           location.reload();
         }
-      }, multi * parseInt($($("[class*=step]")[k]).find('#time').val()))
+      }, multi * parseInt($($(".step")[k]).find('#time').val()))
     }
 
 
@@ -114,19 +126,23 @@
       }
     })
 
-
-
-
-    var i = 0;
-
+    var i = 2
     $("#add").click(function() {
-      $("fieldset").append(`<div class="step${i}">Step:<br>
-    <input type="text" name="step${i}"><br><br>
-    If timed, how many seconds:<br>
-    <input id="time" type="number" name="time${i}"><br></div>`)
-    i++;
+      $("#steps").append(`<div class="step col-md-7">
+      <h4>Step ${i++}:</h4>
+      <div class="form-group">
+        <textarea class="form-control" type="text" name="step"></textarea>
+      </div>
+      <h5>Seconds: </h5>
+      <div class="form-group">
+        <input class="form-control" id="time" type="number" name="time">
+      </div>
+      </div>`)
+
+      
     })
   </script>
 
 </body>
+</div>
 </html>
