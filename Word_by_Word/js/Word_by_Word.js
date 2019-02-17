@@ -1,54 +1,140 @@
-var loadedtext = "";
+var postdata = "I'm changing this to see if I'm manipulating the wrong thing"
+var paragraphs = dividewords();
+var paused = false;
+var timer;
 
 $('#start').click(function(){
 	var file = document.getElementById('file').files[0];
-	console.log(file);
 	if(file){
 		getAsText(file);
-		var element = document.getElementById('file-content');
-		element.textContent = contents;
+		postdata = "It has permanetlyy changed"
+		alert(postdata);
+		window.location.href = "action_page.html"
 	}
 	else if(document.getElementById('words').value != "") {
-		var text = "";
-		text = document.getElementById('words').value
-		loadedtext = text;
-	}
-	else {
+		this.postdata = document.getElementById('words').value;
+		alert(postdata);
+		window.location.href = "action_page.html"
+	} else {
 		alert("Nothing was inputted");
 	}
 });
 
-function ReadTextBox()//reads from the textbox
-{
-	var text = "";
-	text = document.getElementById('words').value
-	loadedtext = text;
-}
-
-function startRead() {//reads the file into memory
-	var file = document.getElementById('file').files[0];
-	if(file){
-		getAsText(file);
-		var element = document.getElementById('file-content');
-		element.textContent = contents;
+function getAsText(file) {//converts the file into a legible string
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+		var reader = new FileReader();
+		reader.onload = function(e) {
+			var contents = e.target.result;
+			displayContents(contents);
+			postdata = contents;
+			var field = document.getElementById('WORDS');
+			field.innerHTML = contents;
+			alert(postdata)
+		};
+		reader.readAsText(file);
+	} else {
+		alert('The File APIs are not fully supported by your browser.');
 	}
-	else if(document.getElementById('words').value != "") {
-		var text = "";
-		text = document.getElementById('words').value
-		loadedtext = text;
-	}
-	else {
-		alert("Nothing was inputted");
-	}
-}
-
-function getAsText(readFile) {//converts the file into a legible string
-	var reader = new FileReader();
+	/*
 	reader.readAsText(readFile, "UTF-8");
 	reader.onload = loaded;
- 	reader.onerror = errorHandler;
+	reader.onerror = errorHandler;
+	*/
 }
 
+function displayContents(contents) {
+  var element = document.getElementById('WORDS');
+  element.textContent = contents;
+}
+
+
+function dividewords()//splits the paragraphs and stuff into different words
+{
+	var paragraphs = postdata.split("\n");
+	var realparagraphs = new Array(paragraphs.length);
+	for (var i = 0; i <= paragraphs.length - 1; i++) {
+		realparagraphs[i] = paragraphs[i].split(" ");
+	};
+	return realparagraphs;
+}
+
+function Timer(callback, delay) {//the timer, adds the pause and resume functinality to setTimeout
+	var args = arguments,
+		self = this,
+		timer, start;
+
+	this.clear = function () {
+		clearTimeout(timer);
+	};
+
+	this.pause = function () {
+		this.clear();
+		delay -= new Date() - start;
+	};
+
+	this.resume = function () {
+		start = new Date();
+		timer = setTimeout(function () {
+			callback.apply(self, Array.prototype.slice.call(args, 2, args.length));
+		}, delay);
+	};
+
+	this.resume();
+}
+
+function callback(i, q, timeout) //callback function, constantly called function that writes the words and then waits.s
+{
+	document.getElementById("WORDS").innerHTML = paragraphs[i][q];
+	if (q == 0){
+		timer = new Timer(callback, timeout*3,i,q+1,timeout)//sets the timer and calls the function and the next word
+		if(paused)//checks if paused, if it is pauses it. 
+		{
+			timer.pause();
+		}
+	}
+	else if (q < paragraphs[i].length-1) 
+	{
+		timer = new Timer(callback, timeout,i,q+1,timeout)//sets the timer and calls the function and the next word
+		if(paused)//checks if paused, if it is pauses it. 
+		{
+			timer.pause();
+		}
+	} 
+	else if (i < paragraphs.length-1) 
+	{
+		timer = new Timer(callback,timeout,i + 1, 0,timeout)//sets the timer and calls the function and the next paragraph
+		if(paused)//checks if paused, if it is pauses it. 
+		{
+			timer.pause();
+		}
+	}
+}
+
+function writewords()//first callback, began with button press
+{
+	var num = parseInt(document.getElementById("timeout").value)+250
+	callback(0,0, num);
+}
+
+function Pause()//button toggled pause resume
+{
+	if(paused)
+	{
+		paused = false;
+		//resume
+		timer.resume();
+		document.getElementById("pause").value = "Pause"
+	}
+	else
+	{
+		paused = true;
+		//pause
+		timer.pause();
+		document.getElementById("pause").value = "Resume"
+	}
+}
+
+/*
 function loaded(evt)//loads it
 {
 	var fileString = evt.target.result;
@@ -72,7 +158,7 @@ function BeginReadText()//posts it to the action_page.html, may need to be fixed
  * @param {object} params: the parameters to add to the url
  * @param {string} [method=post]: the method to use on the form
  */
-
+/*
 function post(path, params, method) {//post method
     method = method || "post"; // Set method to post by default if not specified.
 
@@ -96,3 +182,4 @@ function post(path, params, method) {//post method
     document.body.appendChild(form);
     form.submit();
 }
+*/

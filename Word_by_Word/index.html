@@ -26,25 +26,20 @@
 					<h2>
 						Custom File Upload
 					</h2>
-					<label for="file-upload" class="custom-file-upload1">
-						<input type="file" id="file" name="files[]"/>
-						<i class="fa fa-cloud-upload"></i> Choose File
-					</label>
-					<p id="file-input"></p>
+					<div class="reading">
+						<label for="file-upload" class="custom-file-upload1">
+							<input type="file" id="file" name="files[]"/>
+							<i class="fa fa-cloud-upload"></i> 
+						</label>
+						<p id="file-input"></p>
+					</div>
 				</div>
-
-				<form>
-					<input id="TextFileReadButton" type="button" value="Read File" oncilck="startRead();" />
-				</form>
-
-				<span class="input-option"><h2>Input file from text</h2></span><br>
-				<form>
-					Text input: <input id = "words" type="text" name="words"><br>
-					<input id="TextBoxReadButton" type="button" value="Read Text" onclick="ReadTextBox();" />
-				</form>
-				<form>
-					<input id="ReadText" type="button" value="Begin" onclick="BeginReadText();" />
-				</form>
+				<span class="input-option"><h2>Input file from text</h2></span>
+				<div class="reading">
+					<form>
+						Text input: <input id = "words" type="text" name="words"><br>
+					</form>
+				</div>
 			</form>
 		</div>
 	</body>
