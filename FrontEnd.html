@@ -26,7 +26,6 @@
   <script>
   	function submitForm() {
      for (var step of $("[class*=step]")) {
-      console.log($(step).find('input').val())
       var speech=$(step).find('input').val();
       var msg = new SpeechSynthesisUtterance(speech);
       window.speechSynthesis.speak(msg);
