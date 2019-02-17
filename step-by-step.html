@@ -16,16 +16,58 @@
       font-size: 100pt
     }
 
-    #output-container {
-      position: fixed;
-      right: 20%;
+    .card {
+      margin-top: 50px;
+      position: inline;
+      align-self: center;
     }
   </style>
 </head>
 <body>
 <div class="container">
+  <div class="card" id="content">
+    <div class="card-header">
+      <h6>Type Instructions to Be Read</h6>
+    </div>
+    <div class="card-body">
+      <form>
+        <div class="form-group">
+          <div class="form-check form-check-inline">
+            <input class="output" type="radio" name="output" value="speech">
+            <label class="form-check-label" for="speech">Speech</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="output" type="radio" name="output" value="text">
+            <label class="form-check-label" for="text">Text</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="output" type="radio" name="output" value="speechtext" checked>
+            <label class="form-check-label" for="speechtext">Speech and Text</label>
+          </div>
+        </div>
 
-  <div id="output-container" class="output">
+        <div id="steps">
+          <div class="row step">
+            <div class="col-md-10 form-group">
+              <label for="step">Step 1</label>
+              <input class="form-control" type="text" name="step" required>
+            </div>
+            <div class="col-md-2 form-group">
+              <label for="time">Time (Seconds)</label>
+              <input class="form-control" id="time" type="number" name="time" required>
+            </div> 
+          </div>
+        </div>
+
+        <button class="btn btn-success" value="Submit" id="btnsubmit">Submit</button>
+        <button class="btn btn-success" type="button" id="add">Add Step</button>
+      </form>
+    </div>
+
+    <button id="pause" class="btn btn-success" style="position: fixed; right: 10%" hidden >Pause</button>
+
+  </div>
+  <!-- <div id="output-container" class="output">
     <div class="form-group">
       <input class="output" type="radio" name="output" value="speech">Speech<br>
       <input class="output" type="radio" name="output" value="text">Text<br>
@@ -50,20 +92,16 @@
         <div class="form-group">
           <textarea class="form-control" type="text" name="step"></textarea>
         </div>
-        <!-- When to move on:<br>
-        <input type="radio" name="next" value="Timed" checked> Timed<br>
-      	<input type="radio" name="next" value="Button Click"> Button Click<br> -->
         <h5>Seconds: </h5>
         <div class="form-group">
           <input class="form-control" id="time" type="number" name="time">
         </div>
       </div>
     </div>  
+   -->
   
-  </form>
 
   <div id="text" hidden>
-    Text!
   </div>
 </div>
 
@@ -91,7 +129,7 @@
   }
 
   function speakboy(k) {
-    var speech = $($(".step")[k]).find('textarea').val();
+    var speech = $($(".step")[k]).find('input').val();
     if (output.match(/speech/i)) {
       var msg = new SpeechSynthesisUtterance(speech);
       window.speechSynthesis.speak(msg);
@@ -108,19 +146,19 @@
     }, multi * parseInt($($(".step")[k]).find('#time').val()))
   }
 
-
-	function submitForm() {
+  $("form").submit(function(event) {
+    event.preventDefault();
     output = $(".output:checked").val()
 
     $("#pause").prop('hidden', false);
 
     if (output.match(/text/i)) {
       $("form").hide()
-      $(".output").hide()
+      $(".card").hide()
       $("#text").prop('hidden', false);
     }
     speakboy(0);
-	}
+  })
 
   $("#pause").click(function(event) {
     if ($("#pause").text() === "Pause") {
@@ -136,16 +174,16 @@
 
   var i = 2
   $("#add").click(function() {
-    $("#steps").append(`<div class="step col-md-7">
-    <h4>Step ${i++}:</h4>
-    <div class="form-group">
-      <textarea class="form-control" type="text" name="step"></textarea>
-    </div>
-    <h5>Seconds: </h5>
-    <div class="form-group">
-      <input class="form-control" id="time" type="number" name="time">
-    </div>
-    </div>`)
+    $("#steps").append(`<div class="row step">
+            <div class="col-md-10 form-group">
+              <label for="step">Step ${i++}</label>
+              <input class="form-control" type="text" name="step" required>
+            </div>
+            <div class="col-md-2 form-group">
+              <label for="time">Time (Seconds)</label>
+              <input class="form-control" id="time" type="number" name="time" required>
+            </div> 
+          </div>`)
 
     
   })
