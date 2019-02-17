@@ -7,16 +7,16 @@ $('#start').click(function(){
 	var file = document.getElementById('file').files[0];
 	if(file){
 		getAsText(file);
-		postdata = "It has permanetlyy changed"
-		alert(postdata);
-		window.location.href = "action_page.html"
+		//alert(postdata);
+		
+
 	}
-	else if(document.getElementById('words').value != "") {
-		this.postdata = document.getElementById('words').value;
-		alert(postdata);
-		window.location.href = "action_page.html"
+	 else if(document.getElementById('words').value != "") {
+	// 	localStorage.setItem('data', document.getElementById('words').value)
+		//alert(postdata);
+		window.location.href = `action_page.html?data=` + document.getElementById('words').value
 	} else {
-		alert("Nothing was inputted");
+		alert("Nothing was entered.");
 	}
 });
 
@@ -25,11 +25,8 @@ function getAsText(file) {//converts the file into a legible string
 		var reader = new FileReader();
 		reader.onload = function(e) {
 			var contents = e.target.result;
-			displayContents(contents);
 			postdata = contents;
-			var field = document.getElementById('WORDS');
-			field.innerHTML = contents;
-			alert(postdata)
+			window.location.href = `action_page.html?data=` + contents
 		};
 		reader.readAsText(file);
 	} else {
@@ -47,13 +44,23 @@ function displayContents(contents) {
   element.textContent = contents;
 }
 
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
 
 function dividewords()//splits the paragraphs and stuff into different words
 {
+	if (getUrlVars().data) postdata = getUrlVars().data.replace(/%27/g, `'`)
+	//postdata = localStorage.getItem('data');
 	var paragraphs = postdata.split("\n");
 	var realparagraphs = new Array(paragraphs.length);
 	for (var i = 0; i <= paragraphs.length - 1; i++) {
-		realparagraphs[i] = paragraphs[i].split(" ");
+		realparagraphs[i] = paragraphs[i].split("%20");
 	};
 	return realparagraphs;
 }
