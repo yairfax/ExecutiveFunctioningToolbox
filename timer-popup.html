@@ -44,16 +44,8 @@
 	}
 
 	function startTimer(i, end) {
-		var msg = new SpeechSynthesisUtterance("Testing testing testing testing");
-		window.speechSynthesis.speak(msg);
 		$("#timer").text(params['task1-name'])
-		if (params["task1-time"] > 1) { // Warning timer TODO: make optional
-			setTimeout(function() {
-				$("#timer").text("One minute left")
-				var msg = new SpeechSynthesisUtterance("One minute left");
-				window.speechSynthesis.speak(msg);
-			}, parseInt((params["task1-time"]-1) * multi))
-		}
+		warningTimer(params["task1-time"])
 		setTimeout(function() {
 			if (params['task2-name']) {
 				$("#timer").text(params['task2-name'])
@@ -61,45 +53,46 @@
 					if (params['break']) { //Break block
 						$("#timer").text("Break Time!")
 						setTimeout(function() {
-							if (i < end) {
-								startTimer(i + 1, end)
-							} else {
-								window.close();
-							}
+							endCycle(i, end)
 						}, parseInt(params['break']) * multi)
+						warningTimer(params['break'])
 					} else { // Non-break block
-						if (i < end) {
-							startTimer(i + 1, end)
-						} else {
-							window.close();
-						}
+						endCycle(i, end)
 					}
 				}, parseInt(params["task2-time"] * multi))
-				if (params["task2-time"] > 1) { // Warning timer TODO: make optional
-					setTimeout(function() {
-						var msg = new SpeechSynthesisUtterance("One minute left");
-						window.speechSynthesis.speak(msg);
-					}, parseInt((params["task2-time"]-1) * multi))
-				}
+				warningTimer(params["task2-time"])
 			} else {
 				if (params['break']) { // Break block
 					$("#timer").text("Break Time!")
 					setTimeout(function() {
-						if (i < end) {
-							startTimer(i + 1, end)
-						} else {
-							window.close();
-						}
+						endCycle(i, end)
 					}, parseInt(params['break']) * multi)
+					warningTimer(params['break'])
 				} else { // Non-break block
-					if (i < end) {
-						startTimer(i + 1, end)
-					} else {
-						window.close();
-					}
+					endCycle(i, end)
 				}
 			}
 		}, parseInt(params["task1-time"]) * multi)
+	}
+
+	function warningTimer (time) {
+		if (time > 1) { // Warning timer TODO: make optional
+			setTimeout(function() {
+				// $("#timer").text("One minute left")
+				var msg = new SpeechSynthesisUtterance("One minute left");
+				window.speechSynthesis.speak(msg);
+			}, parseInt((time - 1) * multi))
+		}
+	}
+
+	function endCycle (i, end) {
+		if (i < end) {
+			startTimer(i + 1, end)
+		} else {
+			var audio = new Audio('audioclip-1550431186-1761.mp4');
+			audio.play()
+			window.close();
+		}
 	}
 
 	startTimer(1, parseInt(params['times']) || 1)
